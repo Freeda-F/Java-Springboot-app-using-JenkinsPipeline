@@ -2,6 +2,8 @@
 
 In this demo, we will create a scripted pipeline for the springboot application based on the Jenkinsfile. Using this pipeline, we will build a docker image and deploy the application to a remote development environment.
 
+GitHub repo  for springboot application : https://github.com/Freeda-F/hello-world-spring-boot
+
 ## Features
 
 On every pipeline execution, the code goes through the following steps:
