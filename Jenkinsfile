@@ -1,10 +1,12 @@
 node{
+  withEnv(['IMAGE_NAME=freedafrancis/java-springboot-app:v2', 'GIT_URL=https://github.com/Freeda-F/hello-world-spring-boot']) {
+
   stage('SCM Checkout'){
-      git 'https://github.com/Freeda-F/hello-world-spring-boot'
+      git "${GIT_URL}"
   }
 
   stage('Build Docker image'){
-      sh 'docker build -t freedafrancis/java-springboot-app:v2 .'
+      sh "docker build -t ${IMAGE_NAME} ."
       sh 'chmod 755 container-check.sh'
    }
 
@@ -12,7 +14,7 @@ node{
     withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerpwd')]) {
       sh "docker login -u freedafrancis -p ${dockerpwd}"
     }
-    sh 'docker push freedafrancis/java-springboot-app:v2'
+    sh "docker push ${IMAGE_NAME}"
    }
 
   stage('Copying the container-check script to remote server'){
@@ -27,5 +29,6 @@ node{
     sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.8.213 ${dockerRun}"
       }
    }
+  }
 
 }
